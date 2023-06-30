@@ -139,7 +139,7 @@ public class EmployeeController {
      * @param id
      * @return
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Result<Employee> getById(@PathVariable Long id){
         log.info("根据id查询员工信息..");
         Employee employee = employeeService.getById(id);
