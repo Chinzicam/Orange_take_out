@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -70,6 +71,29 @@ public class EmployeeController {
     public Result<String> logout(HttpServletRequest request){
         request.getSession().removeAttribute("employee");
         return Result.success("退出成功");
+    }
+
+    /**
+     * 新增员工
+     * @param employee
+     * @return
+     */
+    @PostMapping
+    public Result<String> save(HttpServletRequest request,@RequestBody Employee employee){
+        log.info("新增的员工信息：{}", employee.toString());
+        //设置默认密码为123456，并采用MD5加密
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        //设置createTime和updateTime
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        //根据session来获取创建人的id
+        Long empId = (Long) request.getSession().getAttribute("employee");
+        //并设置
+        employee.setCreateUser(empId);
+        employee.setUpdateUser(empId);
+        //存入数据库
+        employeeService.save(employee);
+        return Result.success("添加员工成功");
     }
 
 
