@@ -1,6 +1,7 @@
 package com.czc.Filter;
 
 import com.alibaba.fastjson.JSON;
+import com.czc.common.BaseContext;
 import com.czc.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -37,7 +38,10 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/employee/logout",
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                //对用户登陆操作放行
+                "/user/login",
+                "/user/sendMsg"
         };
 
         //2.判断本次请求是否需要处理
@@ -52,7 +56,14 @@ public class LoginCheckFilter implements Filter {
 
         //4.判断登录状态，如果已登录，则直接放行
         if (request.getSession().getAttribute("employee") != null) {
-            log.info("用户已登录，id为{}",request.getSession().getAttribute("employee"));
+            log.info("后端用户已登录，id为{}",request.getSession().getAttribute("employee"));
+            //根据session来获取之前我们存的id值
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            //使用BaseContext封装id，实现自动填充==>MyMetaObjectHandler类
+            BaseContext.setCurrentId(empId);
+            if (request.getSession().getAttribute("user") != null) {
+                return;
+            }
             filterChain.doFilter(request,response);
             return;
         }

@@ -82,13 +82,13 @@ public class EmployeeController {
         //设置默认密码为123456，并采用MD5加密
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         //设置createTime和updateTime
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         //根据session来获取创建人的id
-        Long empId = (Long) request.getSession().getAttribute("employee");
+//        Long empId = (Long) request.getSession().getAttribute("employee");
         //并设置
-        employee.setCreateUser(empId);
-        employee.setUpdateUser(empId);
+//        employee.setCreateUser(empId);
+//        employee.setUpdateUser(empId);
         //存入数据库
         employeeService.save(employee);
         return Result.success("添加员工成功");
@@ -111,6 +111,7 @@ public class EmployeeController {
         wrapper.like(!(name == null || "".equals(name)), Employee::getName, name);
         //排除管理员
         wrapper.ne(Employee::getUsername,"admin");
+        //排序
         wrapper.orderByDesc(Employee::getUpdateTime);
 
         employeeService.page(pageInfo, wrapper);
@@ -127,9 +128,9 @@ public class EmployeeController {
     public Result<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("employee={}", employee);
         //获取当前用户id
-        Long id = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(id);
+//        Long id = (Long) request.getSession().getAttribute("employee");
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(id);
         employeeService.updateById(employee);
         return Result.success("员工信息修改成功");
     }
