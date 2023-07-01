@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
         //错误日志：Duplicate entry 'czc' for key 'employee.idx_username'
         if(ex.getMessage().contains("Duplicate entry")){
             String[] split = ex.getMessage().split(" ");
-            String username=split[2];
-            return Result.error("用户名"+username+"已存在");
+            String msg=split[2]+"已存在";
+            return Result.error(msg);
         }
             return Result.error("未知错误");
     }
