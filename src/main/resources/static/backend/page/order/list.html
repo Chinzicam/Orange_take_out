@@ -96,7 +96,7 @@
       </el-table>
       <el-pagination
         class="pageList"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[5, 10, 15, 20]"
         :page-size="pageSize"
         :current-page.sync="page"
         layout="total, sizes, prev, pager, next, jumper"
@@ -190,7 +190,7 @@
              endTime: '',
              counts: 0,
              page: 1,
-             pageSize: 10,
+             pageSize: 5,
              tableData : [],
              dialogVisible: false,
              diaForm: {},
