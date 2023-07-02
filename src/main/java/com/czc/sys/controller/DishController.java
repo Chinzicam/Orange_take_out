@@ -98,7 +98,6 @@ public class DishController {
         return Result.success("新增菜品成功");
     }
 
-
     /**
      * 根据id获取编辑页的口味信息
      * @param id
@@ -110,13 +109,23 @@ public class DishController {
         return Result.success(dishDto);
     }
 
-
     /**
      * 编辑菜品
+     * @param dishDto
+     * @return
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody DishDto dishDto){
+        dishService.updateWithFlavor(dishDto);
+        return Result.success("修改菜品成功");
+    }
+
+    /**
+     * 更新菜品状态
      * @return
      */
     @PostMapping("/status")
-    public Result<String> update(){
+    public Result<String> status(){
 
         return Result.success("");
     }
