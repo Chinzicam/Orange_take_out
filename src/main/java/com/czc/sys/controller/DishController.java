@@ -94,10 +94,22 @@ public class DishController {
      */
     @PostMapping
     public Result<String> save(@RequestBody DishDto dishDto) {
-        log.info("接收到的数据为：{}",dishDto);
         dishService.saveWithFlavor(dishDto);
         return Result.success("新增菜品成功");
     }
+
+
+    /**
+     * 根据id获取编辑页的口味信息
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}")
+    public Result<DishDto> get( @PathVariable Long id){
+        DishDto dishDto = dishService.getByIdWithFlavor(id);
+        return Result.success(dishDto);
+    }
+
 
     /**
      * 编辑菜品
@@ -105,6 +117,7 @@ public class DishController {
      */
     @PostMapping("/status")
     public Result<String> update(){
+
         return Result.success("");
     }
 }
