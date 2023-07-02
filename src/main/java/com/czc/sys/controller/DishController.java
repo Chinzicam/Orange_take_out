@@ -3,6 +3,7 @@ package com.czc.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.czc.common.CustomException;
 import com.czc.common.Result;
 import com.czc.sys.dto.DishDto;
 import com.czc.sys.entity.Category;
@@ -132,6 +133,25 @@ public class DishController {
         wrapper.set(Dish::getStatus, status);
         dishService.update(wrapper);
         return Result.success("批量操作成功");
+    }
+
+    /**
+     * 批量删除商品
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    public Result<String> delete(@RequestParam List<Long> ids) {
+        LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.in(ids != null, Dish::getId, ids);
+        wrapper.set(Dish::getStatus, 1);
+        //对商品进行判断
+        int count = (int) dishService.count(wrapper);
+        if (count != 0) {
+            throw new CustomException("删除列表中存在启售状态商品，无法删除");
+        }
+        dishService.removeByIds(ids);
+        return Result.success("批量删除成功");
     }
 
 }
