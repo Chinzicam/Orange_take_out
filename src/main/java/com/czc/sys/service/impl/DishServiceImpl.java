@@ -28,16 +28,23 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
     @Autowired
     private IDishFlavorService dishFlavorService;
 
+    /**
+     * 将菜品数据和口味数据分别存进两张表，即dish表和dish_flavor表
+     * @param dishDto
+     */
     @Override
     public void saveWithFlavor(DishDto dishDto) {
-        //将dish的字段存进数据库
+        //将菜品数据保存到dish表
         this.save(dishDto);
         Long dishId = dishDto.getId();
-        //将菜品口味存进数据库
+        //将获取到的dishId赋值给dishFlavor的dishId属性
         List<DishFlavor> flavors = dishDto.getFlavors();
         for (DishFlavor dishFlavor : flavors) {
             dishFlavor.setDishId(dishId);
         }
+        //同时将菜品口味数据保存到dish_flavor表
         dishFlavorService.saveBatch(flavors);
     }
+
+
 }
