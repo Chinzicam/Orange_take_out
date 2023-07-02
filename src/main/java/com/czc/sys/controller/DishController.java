@@ -143,12 +143,12 @@ public class DishController {
     @DeleteMapping
     public Result<String> delete(@RequestParam List<Long> ids) {
         LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.in(ids != null, Dish::getId, ids);
-        wrapper.set(Dish::getStatus, 1);
+        wrapper.in(Dish::getId, ids);
+        wrapper.eq(Dish::getStatus, 1);
         //对商品进行判断
         int count = (int) dishService.count(wrapper);
-        if (count != 0) {
-            throw new CustomException("删除列表中存在启售状态商品，无法删除");
+        if (count > 0) {
+            throw new CustomException("删除列表中存在启售状态商品，无法删除"+count);
         }
         dishService.removeByIds(ids);
         return Result.success("批量删除成功");
