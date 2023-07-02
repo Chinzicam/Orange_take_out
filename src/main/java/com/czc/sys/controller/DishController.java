@@ -1,6 +1,7 @@
 package com.czc.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.czc.common.Result;
 import com.czc.sys.dto.DishDto;
@@ -121,12 +122,16 @@ public class DishController {
     }
 
     /**
-     * 更新菜品状态
+     * 批量更新菜品状态
      * @return
      */
-    @PostMapping("/status")
-    public Result<String> status(){
-
-        return Result.success("");
+    @PostMapping("/status/{status}")
+    public Result<String> status(@PathVariable Integer status,@RequestParam List<Long> ids){
+        LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.in(ids != null, Dish::getId, ids);
+        wrapper.set(Dish::getStatus, status);
+        dishService.update(wrapper);
+        return Result.success("批量操作成功");
     }
+
 }
