@@ -22,7 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("公共字段自动填充(insert)...");
         long id = Thread.currentThread().getId();
-        log.info("updateFill的线程id为：{}", id);
+//        log.info("updateFill的线程id为：{}", id);
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
         //添加设置添加人id
@@ -38,7 +38,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         log.info("公共字段自动填充(update)...");
         long id = Thread.currentThread().getId();
-        log.info("updateFill的线程id为：{}", id);
+//        log.info("updateFill的线程id为：{}", id);
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
         //添加设置修改人id
