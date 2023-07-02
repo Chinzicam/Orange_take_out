@@ -4,6 +4,8 @@ import com.czc.sys.dto.SetmealDto;
 import com.czc.sys.entity.Setmeal;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 套餐 服务类
@@ -15,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISetmealService extends IService<Setmeal> {
 
     void saveWithDish(SetmealDto setmealDto);
+
+    void removeWithDish(List<Long> ids);
 }
