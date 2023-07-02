@@ -6,3 +6,6 @@ spring:
     url: jdbc:mysql://localhost:3306/reggie?serverTimezone=UTC
     username: root
     password: czc123
+
+Orange_take_out:
+  path: E:\Learnfiles\Github\Orange_take_out\src\main\resources\image\

@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * 过滤器
+ * @author czc
  */
 @WebFilter(filterName = "loginCheckFilter",urlPatterns = "/*")
 @Slf4j
@@ -41,7 +42,9 @@ public class LoginCheckFilter implements Filter {
                 "/front/**",
                 //对用户登陆操作放行
                 "/user/login",
-                "/user/sendMsg"
+                "/user/sendMsg",
+
+                "/common/**"
         };
 
         //2.判断本次请求是否需要处理

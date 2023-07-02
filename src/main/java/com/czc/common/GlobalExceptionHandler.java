@@ -27,4 +27,15 @@ public class GlobalExceptionHandler {
         }
             return Result.error("未知错误");
     }
+
+    /**
+     * 分类删除业务异常处理
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public Result<String> exceptionHandler(CustomException ex){
+        log.error(ex.getMessage());
+        return Result.error(ex.getMessage());
+    }
 }

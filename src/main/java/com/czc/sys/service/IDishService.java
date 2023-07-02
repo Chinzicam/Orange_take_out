@@ -1,5 +1,6 @@
 package com.czc.sys.service;
 
+import com.czc.sys.dto.DishDto;
 import com.czc.sys.entity.Dish;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDishService extends IService<Dish> {
 
+    /**
+     * 保存菜品和口味
+     * @param dishDto
+     */
+    void saveWithFlavor(DishDto dishDto);
 }

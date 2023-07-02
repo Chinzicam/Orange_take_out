@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜品及套餐分类 前端控制器
@@ -80,6 +82,20 @@ public class CategoryController {
         log.info("修改分类信息为：{}", category);
         categoryService.updateById(category);
         return Result.success("修改分类信息成功");
+    }
+
+    /**
+     * 在菜品新增页面显示菜品分类，通过type来区分
+     * @param category
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<Category>>list(Category category) {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(category.getType()!=null,Category::getType,category.getType());
+        wrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+        List<Category> list = categoryService.list(wrapper);
+        return Result.success(list);
     }
 
 

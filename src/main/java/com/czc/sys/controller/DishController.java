@@ -3,11 +3,13 @@ package com.czc.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.czc.common.Result;
+import com.czc.sys.dto.DishDto;
 import com.czc.sys.entity.Dish;
+import com.czc.sys.service.IDishFlavorService;
 import com.czc.sys.service.IDishService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -18,13 +20,18 @@ import org.springframework.stereotype.Controller;
  * @author czc
  * @since 2023-06-28
  */
-@Controller
+@RestController
+@Slf4j
 @RequestMapping("/dish")
 public class DishController {
     @Autowired
     private IDishService dishService;
 
+    @Autowired
+    private IDishFlavorService dishFlavorService;
+
     /**
+     * 分页及页面显示
      * @param page
      * @param pageSize
      * @param name
@@ -40,4 +47,10 @@ public class DishController {
         return Result.success(pageInfo);
     }
 
+    @PostMapping
+    public Result<String> save(@RequestBody DishDto dishDto) {
+        log.info("接收到的数据为：{}",dishDto);
+        dishService.saveWithFlavor(dishDto);
+        return Result.success("新增菜品成功");
+    }
 }
