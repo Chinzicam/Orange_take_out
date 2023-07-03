@@ -35,7 +35,7 @@ public class AddressBookController {
     public Result<List<AddressBook>> list(AddressBook addressBook){
         addressBook.setUserId(BaseContext.getCurrentId());
         LambdaQueryWrapper<AddressBook> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(AddressBook::getId,addressBook.getUserId());
+        wrapper.eq(AddressBook::getUserId,addressBook.getUserId());
         wrapper.orderByDesc(AddressBook::getUpdateTime);
         List<AddressBook> list = addressBookService.list(wrapper);
         log.info("list:{}", list);
