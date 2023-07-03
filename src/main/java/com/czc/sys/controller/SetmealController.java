@@ -165,4 +165,19 @@ public class SetmealController {
         return Result.success(setmealDto);
     }
 
+    /**
+     * 菜品分类展示套餐信息
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<Setmeal>> list(Setmeal setmeal) {
+        LambdaQueryWrapper<Setmeal> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Setmeal::getStatus,setmeal.getStatus());
+        wrapper.eq(Setmeal::getCategoryId,setmeal.getCategoryId());
+        wrapper.orderByDesc(Setmeal::getUpdateTime);
+        List<Setmeal> list = setmealService.list(wrapper);
+        return Result.success(list);
+    }
+
 }
