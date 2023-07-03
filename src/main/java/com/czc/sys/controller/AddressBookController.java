@@ -72,7 +72,7 @@ public class AddressBookController {
         wrapper.set(AddressBook::getIsDefault, 0);
         addressBookService.update(wrapper);
         //当前用户setIsDefault为1
-        addressBook.setIsDefault(true);
+        addressBook.setIsDefault(1);
         addressBookService.updateById(addressBook);
         return Result.success(addressBook);
     }
