@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.czc.common.CustomException;
 import com.czc.common.Result;
+import com.czc.sys.dto.DishDto;
 import com.czc.sys.dto.SetmealDto;
 import com.czc.sys.entity.Category;
+import com.czc.sys.entity.Dish;
 import com.czc.sys.entity.Setmeal;
 import com.czc.sys.entity.SetmealDish;
 import com.czc.sys.service.ICategoryService;
+import com.czc.sys.service.IDishService;
 import com.czc.sys.service.ISetmealDishService;
 import com.czc.sys.service.ISetmealService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +43,8 @@ public class SetmealController {
     private ISetmealDishService setmealDishService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private IDishService dishService;
 
     /**
      * 新增套餐，及菜品处理
@@ -178,6 +183,34 @@ public class SetmealController {
         wrapper.orderByDesc(Setmeal::getUpdateTime);
         List<Setmeal> list = setmealService.list(wrapper);
         return Result.success(list);
+    }
+
+    /**
+     *点击菜品图片放大
+     * @param id
+     * @return
+     */
+    @GetMapping("/dish/{id}")
+    public Result<List<DishDto>> showSetmealDish(@PathVariable Long id) {
+        //条件构造器
+        LambdaQueryWrapper<SetmealDish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //手里的数据只有setmealId
+        dishLambdaQueryWrapper.eq(SetmealDish::getSetmealId, id);
+        //查询数据
+        List<SetmealDish> records = setmealDishService.list(dishLambdaQueryWrapper);
+        List<DishDto> dtoList = records.stream().map((item) -> {
+            DishDto dishDto = new DishDto();
+            //copy数据
+            BeanUtils.copyProperties(item,dishDto);
+            //查询对应菜品id
+            Long dishId = Long.valueOf(item.getDishId());
+            //根据菜品id获取具体菜品数据，这里要自动装配 dishService
+            Dish dish = dishService.getById(dishId);
+            //其实主要数据是要那个图片，不过我们这里多copy一点也没事
+            BeanUtils.copyProperties(dish,dishDto);
+            return dishDto;
+        }).collect(Collectors.toList());
+        return Result.success(dtoList);
     }
 
 }

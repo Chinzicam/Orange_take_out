@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -84,6 +85,17 @@ public class UserController {
             return Result.success(user);
         }
         return Result.error("登录失败");
+    }
+
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
+    @PostMapping("/loginout")
+    public Result<String> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
+        return Result.success("退出成功");
     }
 
 }
