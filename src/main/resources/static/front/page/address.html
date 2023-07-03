@@ -117,7 +117,7 @@
                     },
                     toAddressEditPage(item){
                         window.requestAnimationFrame(()=>{
-                            window.location.href= `address-edit.html`
+                            window.location.href = `address-edit.html?id=${item.id}`
                         })
                     },
                     toAddressCreatePage(){

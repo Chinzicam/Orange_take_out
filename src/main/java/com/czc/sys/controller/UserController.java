@@ -47,7 +47,7 @@ public class UserController {
         if (!phone.isEmpty()) {
             //随机生成一个验证码
             String code = MailUtils.achieveCode();
-            log.info(code);
+            log.info("邮箱验证码："+code);
             //这里的phone其实就是邮箱，code是我们生成的验证码
 //            MailUtils.sendTestMail(phone, code);
             //验证码存session，方便后面拿出来比对
