@@ -40,6 +40,7 @@ public class ShoppingCartController {
         LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
         Long userId = BaseContext.getCurrentId();
         wrapper.eq(ShoppingCart::getUserId, userId);
+        wrapper.orderByDesc(ShoppingCart::getCreateTime);
         List<ShoppingCart> list = shoppingCartService.list();
         log.info("shoppingList={}", list);
         return Result.success(list);
@@ -100,6 +101,11 @@ public class ShoppingCartController {
         return Result.success("成功清空购物车");
     }
 
+    /**
+     * 减少商品
+     * @param shoppingCart
+     * @return
+     */
     @PostMapping("/sub")
     public Result<ShoppingCart> sub(@RequestBody ShoppingCart shoppingCart) {
         Long dishId = shoppingCart.getDishId();

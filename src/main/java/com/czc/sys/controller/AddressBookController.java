@@ -119,4 +119,18 @@ public class AddressBookController {
         return Result.success("地址删除成功");
     }
 
+    /**
+     * 下单时获取默认地址
+     * @return
+     */
+    @GetMapping("/default")
+    public Result<AddressBook> defaultAddress(){
+        Long userId = BaseContext.getCurrentId();
+        LambdaQueryWrapper<AddressBook> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(AddressBook::getUserId,userId);
+        wrapper.eq(AddressBook::getIsDefault,1);
+        AddressBook address = addressBookService.getOne(wrapper);
+        return Result.success(address);
+    }
+
 }
