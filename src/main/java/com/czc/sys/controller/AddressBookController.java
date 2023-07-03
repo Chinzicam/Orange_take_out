@@ -3,11 +3,13 @@ package com.czc.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.czc.common.BaseContext;
+import com.czc.common.CustomException;
 import com.czc.common.Result;
 import com.czc.sys.entity.AddressBook;
 import com.czc.sys.service.IAddressBookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,6 +66,7 @@ public class AddressBookController {
      * @return
      */
     @PutMapping("/default")
+    @Transactional
     public Result<AddressBook> setDefaultAddress(@RequestBody AddressBook addressBook) {
         addressBook.setUserId(BaseContext.getCurrentId());
         //查询setIsDefault为1的用户，改为0
@@ -75,6 +78,45 @@ public class AddressBookController {
         addressBook.setIsDefault(1);
         addressBookService.updateById(addressBook);
         return Result.success(addressBook);
+    }
+
+    /**
+     * 点击编辑，获取地址信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result<AddressBook> getById(@PathVariable Long id){
+        AddressBook addressBook = addressBookService.getById(id);
+        if (addressBook == null) {
+            throw new CustomException("地址信息不存在");
+        }
+        return Result.success(addressBook);
+    }
+
+    /**
+     * 修改并保存地址信息
+     * @param addressBook
+     * @return
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody AddressBook addressBook) {
+        if (addressBook == null) {
+            throw new CustomException("地址信息不存在，请刷新重试");
+        }
+        addressBookService.updateById(addressBook);
+        return Result.success("地址修改成功");
+    }
+
+    /**
+     * 删除地址信息
+     * @param id
+     * @return
+     */
+    @DeleteMapping()
+    public Result<String> delete(@RequestParam("ids") Long id) {
+        addressBookService.removeById(id);
+        return Result.success("地址删除成功");
     }
 
 }
