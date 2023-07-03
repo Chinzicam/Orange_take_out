@@ -103,7 +103,7 @@ public class SetmealController {
         wrapper.in(Setmeal::getId, ids);
         wrapper.set(Setmeal::getStatus, status);
         setmealService.update(wrapper);
-        return Result.success("批量操作成功");
+        return Result.success("操作成功");
     }
 
     /**
