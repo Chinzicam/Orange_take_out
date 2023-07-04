@@ -3,19 +3,16 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #333;
+  background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
 }
 .login-box {
   width: 1000px;
-  height: 474.38px;
+  height: 500px;
   border-radius: 8px;
   display: flex;
+  justify-content: center;
 }
 
-.login-box img {
-  width: 60%;
-  height: auto;
-}
 
 .title {
   margin: 0px auto 30px auto;
@@ -25,7 +22,7 @@
 .login-form {
   background: #ffffff;
   width: 40%;
-  border-radius: 0px 8px 8px 0px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

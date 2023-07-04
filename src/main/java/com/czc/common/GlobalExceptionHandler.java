@@ -15,6 +15,11 @@ import static com.sun.jmx.snmp.ThreadContext.contains;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /**
+     *重复字段
+     * @param ex
+     * @return
+     */
     //专门处理SQLIntegrityConstraintViolationException异常
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public Result<String> exceptionHandler(SQLIntegrityConstraintViolationException ex){
