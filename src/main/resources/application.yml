@@ -8,4 +8,4 @@ spring:
     password: czc123
 
 Orange_take_out:
-  path: E:\Learnfiles\Github\Orange_take_out\src\main\resources\image\
+  path: ./src/main/resources/image/

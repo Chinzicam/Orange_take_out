@@ -29,7 +29,7 @@ Spring，Springboot，MybatisPlus，MySQL
 > 首先下载本项目，运行resource路径下的**sql文件**
 
 
-> 修改yml文件的**数据库配置**和**image路径**，image路径可以参考我的image路径来改
+> 修改yml文件的**数据库配置**
 
 至此，应该可以运行了。
 
