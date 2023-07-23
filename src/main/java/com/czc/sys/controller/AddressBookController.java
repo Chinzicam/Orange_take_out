@@ -88,9 +88,9 @@ public class AddressBookController {
     @GetMapping("/{id}")
     public Result<AddressBook> getById(@PathVariable Long id){
         AddressBook addressBook = addressBookService.getById(id);
-        if (addressBook == null) {
-            throw new CustomException("地址信息不存在");
-        }
+//        if (addressBook == null) {
+//            throw new CustomException("地址信息不存在");
+//        }
         return Result.success(addressBook);
     }
 
